@@ -10,8 +10,6 @@ import SwiftUI
 
 struct ContentView: View {
     let numbers = Array(1...50).shuffled()
-    
-    let colors: [Color] = [.red, .green, .blue]
         
     var body: some View {
         VStack {
