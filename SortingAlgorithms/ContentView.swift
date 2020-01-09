@@ -23,8 +23,19 @@ struct ContentView: View {
                     Capsule().frame(width: 5, height: CGFloat(number*3))
                     .foregroundColor(.red)
                 }
+                
             }
             
+            Button(action: {
+                // TODO: animate bars
+            }, label: {
+                Text("Sort!")
+            })
+            .foregroundColor(Color.white)
+            .padding()
+            .background(Color.blue)
+            .cornerRadius(15)
+
         }
         
     }
