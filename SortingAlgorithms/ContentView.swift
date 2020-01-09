@@ -9,8 +9,26 @@
 import SwiftUI
 
 struct ContentView: View {
+    let numbers = Array(1...50).shuffled()
+    
+    let colors: [Color] = [.red, .green, .blue]
+        
     var body: some View {
-        Text("Hello World")
+        VStack {
+            Text("Bubble Sort")
+                .font(.title)
+                .fontWeight(.heavy)
+            
+            HStack {
+                // animations may not work with foreach loop
+                ForEach(numbers, id: \.self) { number in
+                    Capsule().frame(width: 5, height: CGFloat(number*3))
+                    .foregroundColor(.red)
+                }
+            }
+            
+        }
+        
     }
 }
 
