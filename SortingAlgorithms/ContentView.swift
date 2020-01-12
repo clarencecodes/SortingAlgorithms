@@ -13,11 +13,18 @@ struct ContentView: View {
         .map { $0 * 5 }
         .shuffled()
     
+    @State private var pickerSelectedItem = 0
+    
     var body: some View {
         VStack {
-            Text("Bubble Sort")
-                .font(.title)
-                .fontWeight(.heavy)
+            
+            Picker(selection: $pickerSelectedItem, label: Text("")) {
+                Text("Bubble Sort").tag(0)
+                Text("Quick Sort").tag(1)
+                Text("Merge Sort").tag(2)
+            }.pickerStyle(SegmentedPickerStyle())
+                .padding(.horizontal, 100)
+                .padding(.bottom, 20)
             
             HStack {
                 ForEach(numbers, id: \.self) { number in
@@ -29,15 +36,11 @@ struct ContentView: View {
             
             HStack {
                 Button(action: {
-                    for i in 0..<self.numbers.count {
-                        for j in 0..<(self.numbers.count - i - 1) {
-                            if self.numbers[j] > self.numbers[j + 1] {
-                                // Swap the two numbers
-                                withAnimation() {
-                                    self.swap(indexA: j, indexB: j + 1)
-                                }
-                            }
-                        }
+                    switch self.pickerSelectedItem {
+                    case 0:
+                        self.bubbleSort()
+                    default:
+                        break
                     }
                     
                 }, label: {
@@ -65,10 +68,19 @@ struct ContentView: View {
         
     }
     
-    private func swap(indexA: Int, indexB: Int) {
-        let temp = self.numbers[indexA]
-        self.numbers[indexA] = self.numbers[indexB]
-        self.numbers[indexB] = temp
+    private func bubbleSort() {
+        for i in 0..<self.numbers.count {
+            for j in 0..<(self.numbers.count - i - 1) {
+                if self.numbers[j] > self.numbers[j+1] {
+                    // Swap the two numbers
+                    withAnimation() {
+                        let temp = self.numbers[j]
+                        self.numbers[j] = self.numbers[j+1]
+                        self.numbers[j+1] = temp
+                    }
+                }
+            }
+        }
     }
     
 }
