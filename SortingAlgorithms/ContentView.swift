@@ -9,8 +9,10 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var numbers = Array(1...50).shuffled()
-
+    @State private var numbers = Array(1...20)
+        .map { $0 * 5 }
+        .shuffled()
+    
     var body: some View {
         VStack {
             Text("Bubble Sort")
@@ -18,7 +20,6 @@ struct ContentView: View {
                 .fontWeight(.heavy)
             
             HStack {
-                // animations may not work with foreach loop
                 ForEach(numbers, id: \.self) { number in
                     Capsule().frame(width: 5, height: CGFloat(number))
                         .foregroundColor(.red)
@@ -26,29 +27,39 @@ struct ContentView: View {
                 
             }
             
-            Button(action: {
-                // TODO: fix issue where algorithm only passes once
-                
-                for i in 0..<(self.numbers.count - 1) {
-                    if self.numbers[i] > self.numbers[i + 1] {
-                        // Swap the two numbers
-                        let animation = Animation
-                            .linear(duration: 0.2)
-                            .delay(Double(i))
-                        
-                        withAnimation(animation) {
-                            self.swap(indexA: i, indexB: i + 1)
+            HStack {
+                Button(action: {
+                    for i in 0..<self.numbers.count {
+                        for j in 0..<(self.numbers.count - i - 1) {
+                            if self.numbers[j] > self.numbers[j + 1] {
+                                // Swap the two numbers
+                                withAnimation() {
+                                    self.swap(indexA: j, indexB: j + 1)
+                                }
+                            }
                         }
                     }
-                }
+                    
+                }, label: {
+                    Text("Sort!")
+                })
+                    .foregroundColor(Color.white)
+                    .padding()
+                    .background(Color.blue)
+                    .cornerRadius(15)
                 
-            }, label: {
-                Text("Sort!")
-            })
-                .foregroundColor(Color.white)
-                .padding()
-                .background(Color.blue)
-                .cornerRadius(15)
+                Button(action: {
+                    withAnimation() {
+                        self.numbers = self.numbers.shuffled()
+                    }
+                }, label: {
+                    Text("Shuffle!")
+                })
+                    .foregroundColor(Color.white)
+                    .padding()
+                    .background(Color.blue)
+                    .cornerRadius(15)
+            }
             
         }
         
